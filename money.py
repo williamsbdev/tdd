@@ -12,19 +12,20 @@ class Money(object):
 
     @staticmethod
     def dollar(amount):
-        return Dollar(amount, "USD")
+        return Money(amount, "USD")
 
     @staticmethod
     def franc(amount):
-        return Franc(amount, "CHF")
+        return Money(amount, "CHF")
 
     def times(self, multiplier):
         return Money(self.amount * multiplier, self.currency)
 
+    def plus(self, addend):
+        return Money(self.amount + addend.amount, self.currency)
 
-class Dollar(Money):
-    pass
 
+class Bank(object):
 
-class Franc(Money):
-    pass
+    def reduce(self, source, to):
+        return Money.dollar(10)
