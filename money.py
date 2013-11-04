@@ -1,12 +1,14 @@
 class Money(object):
-    amount = 0
-    currency = ''
+
+    def __init__(self, amount, currency):
+        self.amount = amount
+        self.currency = currency
 
     def equals(self, money):
-        return self.amount == money.amount and self.__class__ == money.__class__
+        return self.__eq__(money)
 
     def __eq__(self, money):
-        return self.amount == money.amount
+        return self.amount == money.amount and self.currency == money.currency
 
     @staticmethod
     def dollar(amount):
@@ -16,22 +18,13 @@ class Money(object):
     def franc(amount):
         return Franc(amount, "CHF")
 
+    def times(self, multiplier):
+        return Money(self.amount * multiplier, self.currency)
+
 
 class Dollar(Money):
-
-    def __init__(self, amount, currency):
-        self.amount = amount
-        self.currency = currency
-
-    def times(self, multiplier):
-        return Money.dollar(self.amount * multiplier)
+    pass
 
 
 class Franc(Money):
-
-    def __init__(self, amount, currency):
-        self.amount = amount
-        self.currency = currency
-
-    def times(self, multiplier):
-        return Money.franc(self.amount * multiplier)
+    pass
