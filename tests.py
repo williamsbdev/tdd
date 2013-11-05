@@ -1,5 +1,5 @@
 import unittest
-from money import Money, Bank
+from money import Money, Bank, Sum
 
 
 class DollarTests(unittest.TestCase):
@@ -35,6 +35,12 @@ class DollarTests(unittest.TestCase):
         result = five.plus(five)
         self.assertEqual(five, result.augend)
         self.assertEqual(five, result.addend)
+
+    def test_reduce_sum(self):
+        _sum = Sum(Money.dollar(3), Money.dollar(4))
+        bank = Bank()
+        result = bank.reduce(_sum, 'USD')
+        self.assertEqual(Money.dollar(7), result)
 
 if __name__ == "__main__":
     unittest.main()

@@ -28,7 +28,8 @@ class Money(object):
 class Bank(object):
 
     def reduce(self, source, to):
-        return Money.dollar(10)
+        amount = source.augend.amount + source.addend.amount
+        return Money(amount, to)
 
 
 class Sum(object):
