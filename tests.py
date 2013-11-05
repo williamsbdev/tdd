@@ -30,6 +30,11 @@ class DollarTests(unittest.TestCase):
         reduced = bank.reduce(total, 'USD')
         self.assertEqual(Money.dollar(10), reduced)
 
+    def test_plus_returns_sum(self):
+        five = Money.dollar(5)
+        result = five.plus(five)
+        self.assertEqual(five, result.augend)
+        self.assertEqual(five, result.addend)
 
 if __name__ == "__main__":
     unittest.main()

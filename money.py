@@ -22,10 +22,17 @@ class Money(object):
         return Money(self.amount * multiplier, self.currency)
 
     def plus(self, addend):
-        return Money(self.amount + addend.amount, self.currency)
+        return Sum(self, addend)
 
 
 class Bank(object):
 
     def reduce(self, source, to):
         return Money.dollar(10)
+
+
+class Sum(object):
+
+    def __init__(self, augend, addend):
+        self.augend = augend
+        self.addend = addend
