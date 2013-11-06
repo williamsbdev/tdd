@@ -24,14 +24,24 @@ class Money(object):
     def plus(self, addend):
         return Sum(self, addend)
 
-    def reduce(self, to):
-        return self
+    def reduce(self, bank, to):
+        rate = bank.rate(self.currency, to)
+        return Money(self.amount / rate, to)
 
 
 class Bank(object):
+    rates = {}
 
     def reduce(self, source, to):
-        return source.reduce(to)
+        return source.reduce(self, to)
+
+    def add_rate(self, _from, to, rate):
+        self.rates.update({(_from, to): rate})
+
+    def rate(self, _from, to):
+        if _from == to:
+            return 1
+        return self.rates.get((_from, to))
 
 
 class Expression(object):
@@ -40,7 +50,7 @@ class Expression(object):
         self.value1 = value1
         self.value2 = value2
 
-    def reduce(self, to):
+    def reduce(self, bank, to):
         raise NotImplementedError
 
 
@@ -50,6 +60,6 @@ class Sum(Expression):
         self.augend = augend
         self.addend = addend
 
-    def reduce(self, to):
+    def reduce(self, bank, to):
         amount = self.augend.amount + self.addend.amount
         return Money(amount, to)
