@@ -53,6 +53,27 @@ class DollarTests(unittest.TestCase):
         result = bank.reduce(Money.franc(2), "USD")
         self.assertEqual(Money.dollar(1), result)
 
+    def test_mixed_addition(self):
+        five_bucks = Money.dollar(5)
+        ten_francs = Money.franc(10)
+        bank = Bank()
+        bank.add_rate("CHF", "USD", 2)
+        result = bank.reduce(five_bucks.plus(ten_francs), "USD")
+        self.assertEqual(Money.dollar(10), result)
+
+    def test_sum_times(self):
+        five_bucks = Money.dollar(5)
+        ten_francs = Money.franc(10)
+        bank = Bank()
+        bank.add_rate("CHF", "USD", 2)
+        _sum = Sum(five_bucks, ten_francs).times(2)
+        result = bank.reduce(_sum, "USD")
+        self.assertEqual(Money.dollar(20), result)
+
+    # def test_plus_same_currency_returns_money(self):
+    #     _sum = Money.dollar(1).plus(Money.dollar(1))
+    #     self.assertTrue(isinstance(_sum, Money), type(_sum))
+
 
 if __name__ == "__main__":
     unittest.main()

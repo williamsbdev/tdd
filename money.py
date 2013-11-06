@@ -53,6 +53,9 @@ class Expression(object):
     def reduce(self, bank, to):
         raise NotImplementedError
 
+    def plus(self, addend):
+        raise NotImplementedError
+
 
 class Sum(Expression):
 
@@ -61,5 +64,11 @@ class Sum(Expression):
         self.addend = addend
 
     def reduce(self, bank, to):
-        amount = self.augend.amount + self.addend.amount
+        amount = self.augend.reduce(bank, to).amount + self.addend.reduce(bank, to).amount
         return Money(amount, to)
+
+    def plus(self, addend):
+        return Sum(self, addend)
+
+    def times(self, multiplier):
+        return Sum(self.augend.times(multiplier), self.addend.times(multiplier))
